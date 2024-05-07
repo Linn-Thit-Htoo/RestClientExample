@@ -1,0 +1,11 @@
+﻿@using static RestClientExample.BlazorWasm.Services.InjectService
+
+<MudDialog>
+    <DialogContent>
+        <MudText>Are you sure you want to delete?</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="DeleteAsync">Delete</MudButton>
+    </DialogActions>
+</MudDialog>

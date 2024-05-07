@@ -20,6 +20,8 @@ public partial class P_BlogList
         }
     }
 
+    #region List
+
     private async Task List(int pageNo, int pageSize = 10)
     {
         _pageNo = pageNo;
@@ -35,11 +37,19 @@ public partial class P_BlogList
         }
     }
 
+    #endregion
+
+    #region Page Changed
+
     private async Task PageChanged(int i)
     {
         _pageNo = i;
         await List(_pageNo);
     }
+
+    #endregion
+
+    #region Popup
 
     private async Task Popup()
     {
@@ -48,6 +58,10 @@ public partial class P_BlogList
         if (!result.Canceled)
             await List(_pageNo, _pageSize);
     }
+
+    #endregion
+
+    #region Edit Popup
 
     private async Task EditPopup(long id)
     {
@@ -62,4 +76,22 @@ public partial class P_BlogList
         if (!result.Canceled)
             await List(_pageNo, _pageSize);
     }
+
+    #endregion
+
+    #region Delete Popup
+
+    private async Task DeletePopUp(long id)
+    {
+        var parameters = new DialogParameters<DeleteBlogDialog>
+        {
+            {"id", id }
+        };
+        DialogResult result = await InjectService.ShowDialogAsync<DeleteBlogDialog>("Delete Blog", parameters);
+
+        if (!result.Canceled)
+            await List(_pageNo, _pageSize);
+    }
+
+    #endregion
 }

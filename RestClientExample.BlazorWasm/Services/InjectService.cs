@@ -14,6 +14,8 @@ public class InjectService
         _snackbar = snackbar;
     }
 
+    #region Show Dialog Async
+
     public async Task<DialogResult> ShowDialogAsync<T>(string title, DialogParameters? parameters = null) where T : IComponent
     {
         DialogOptions options = new()
@@ -39,6 +41,10 @@ public class InjectService
         return result;
     }
 
+    #endregion
+
+    #region Show Message
+
     public void ShowMessage(string message, EnumResponseType responseType)
     {
         switch (responseType)
@@ -60,6 +66,10 @@ public class InjectService
         }
     }
 
+    #endregion
+
+    #region Enum Response Type
+
     public enum EnumResponseType
     {
         Success,
@@ -67,4 +77,6 @@ public class InjectService
         Warning,
         Error
     }
+
+    #endregion
 }

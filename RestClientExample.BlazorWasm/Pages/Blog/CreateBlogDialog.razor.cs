@@ -13,6 +13,8 @@ public partial class CreateBlogDialog
 
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
+    #region Save Async
+
     private async Task SaveAsync()
     {
 
@@ -49,15 +51,16 @@ public partial class CreateBlogDialog
         InjectService.ShowMessage(response.Content!, EnumResponseType.Error);
     }
 
+    #endregion
 
-    private void Cancel() => MudDialog?.Cancel();
-
-    private void Validate()
-    {
-    }
+    #region Show Warning
 
     private void ShowWarning(string message)
     {
         InjectService.ShowMessage(message, EnumResponseType.Warning);
     }
+
+    #endregion
+
+    private void Cancel() => MudDialog?.Close();
 }

@@ -96,7 +96,6 @@ public class DataAccess_Blog
             .FirstOrDefaultAsync(x => x.BlogId == id) ?? throw new Exception("No data found.");
 
         _appDbContext.Blogs.Remove(item);
-        _appDbContext.Entry(item).State = EntityState.Modified;
         int result = await _appDbContext.SaveChangesAsync();
 
         return result;
