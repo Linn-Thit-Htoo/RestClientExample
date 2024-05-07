@@ -1,0 +1,17 @@
+﻿<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h5">
+            <MudIcon Icon="@Icons.Material.Filled.Edit"></MudIcon>
+            Edit Blog
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="@Model.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        <MudTextField @bind-Value="@Model.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        <MudTextField @bind-Value="@Model.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Color="Color.Error" Size="Size.Medium" Variant="Variant.Filled">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Medium" OnClick="SaveAsync">Save</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,18 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using RestClientExample.BlazorWasm
+@using RestClientExample.BlazorWasm.Services
+@using RestClientExample.BlazorWasm.Shared
+@using MudBlazor
+@using RestSharp
+
+@inject RestClient RestClient
+@inject IDialogService DialogService
+@inject InjectService InjectService
+@inject ISnackbar Snackbar
