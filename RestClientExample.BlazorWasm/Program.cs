@@ -18,6 +18,9 @@ builder.Services.AddScoped(n =>
     return new RestClient("https://localhost:7248");
 });
 
+builder.Services.AddScoped<RestClientService>();
+
+
 builder.Services.AddScoped<InjectService>();
 
 await builder.Build().RunAsync();

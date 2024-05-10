@@ -21,10 +21,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in ResponseModel.Blogs)
+            @foreach (var item in ResponseModel.Data.Blogs)
             {
                 <tr>
-                    <td>@(++count + ((ResponseModel.PageNo - 1) * ResponseModel.PageSize))</td>
+                    <td>@(++count + ((ResponseModel.PageSetting.PageNo - 1) * ResponseModel.PageSetting.PageSize))</td>
                     <td>@item.BlogId</td>
                     <td>@item.BlogTitle</td>
                     <td>@item.BlogAuthor</td>
@@ -38,7 +38,7 @@
         </tbody>
     </MudSimpleTable>
 
-    <MudPagination Size="Size.Medium" SelectedChanged="PageChanged" Variant="Variant.Filled" Count="@ResponseModel.PageCount" Class="my-4" />
+    <MudPagination Size="Size.Medium" SelectedChanged="PageChanged" Variant="Variant.Filled" Count="@ResponseModel.PageSetting.PageCount" Class="my-4" />
 }
 else
 {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Newtonsoft.Json;
 using RestClientExample.BlazorWasm.Models;
-using RestSharp;
+using RestClientExample.BlazorWasm.Services;
 using static RestClientExample.BlazorWasm.Services.InjectService;
 
 namespace RestClientExample.BlazorWasm.Pages.Blog;
@@ -36,19 +35,19 @@ public partial class CreateBlogDialog
             return;
         }
 
-        RestRequest request = new("/api/Blog", Method.Post);
-        string jsonBody = JsonConvert.SerializeObject(requestModel);
-        request.AddJsonBody(jsonBody);
-        RestResponse response = await RestClient.ExecuteAsync(request);
-        if (response.IsSuccessStatusCode)
+        var response = await RestClientService.ExecuteAsync<BlogResponseModel>(
+            Endpoints.Blog,
+            EnumHttpMethod.Post,
+            requestModel);
+
+        if (response.IsSuccess)
         {
-            string jsonStr = response.Content!.Substring(1, response.Content.Length - 2);
-            InjectService.ShowMessage(jsonStr, EnumResponseType.Success);
+            InjectService.ShowMessage(response.Message!, EnumResponseType.Success);
             MudDialog?.Close();
             return;
         }
 
-        InjectService.ShowMessage(response.Content!, EnumResponseType.Error);
+        InjectService.ShowMessage(response.Message!, EnumResponseType.Error);
     }
 
     #endregion

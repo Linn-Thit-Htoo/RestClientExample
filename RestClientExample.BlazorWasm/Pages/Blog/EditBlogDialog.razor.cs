@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Newtonsoft.Json;
 using RestClientExample.BlazorWasm.Models;
 using RestClientExample.BlazorWasm.Services;
 using RestSharp;
@@ -10,7 +9,7 @@ namespace RestClientExample.BlazorWasm.Pages.Blog;
 
 public partial class EditBlogDialog
 {
-    private BlogModel Model = new();
+    private BlogResponseModel ResponseModel = new();
 
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
@@ -22,19 +21,19 @@ public partial class EditBlogDialog
 
     private async Task SaveAsync()
     {
-        if (string.IsNullOrEmpty(Model.BlogTitle))
+        if (string.IsNullOrEmpty(ResponseModel.Item.BlogTitle))
         {
             ShowWarning("Blog Title cannot be empty.");
             return;
         }
 
-        if (string.IsNullOrEmpty(Model.BlogAuthor))
+        if (string.IsNullOrEmpty(ResponseModel.Item.BlogAuthor))
         {
             ShowWarning("Blog Author cannot be empty.");
             return;
         }
 
-        if (string.IsNullOrEmpty(Model.BlogContent))
+        if (string.IsNullOrEmpty(ResponseModel.Item.BlogContent))
         {
             ShowWarning("Blog Content cannot be empty.");
             return;
@@ -42,24 +41,24 @@ public partial class EditBlogDialog
 
         BlogRequestModel requestModel = new()
         {
-            BlogTitle = Model.BlogTitle,
-            BlogAuthor = Model.BlogAuthor,
-            BlogContent = Model.BlogContent
+            BlogTitle = ResponseModel.Item.BlogTitle,
+            BlogAuthor = ResponseModel.Item.BlogAuthor,
+            BlogContent = ResponseModel.Item.BlogContent
         };
 
-        RestRequest request = new($"{Endpoints.Blog}/{id}", Method.Patch);
-        string jsonBody = JsonConvert.SerializeObject(requestModel);
-        request.AddJsonBody(jsonBody);
-        RestResponse response = await RestClient.ExecuteAsync(request);
+        var response = await RestClientService.ExecuteAsync<BlogResponseModel>(
+            $"{Endpoints.Blog}/{id}",
+            EnumHttpMethod.Patch,
+            requestModel);
 
-        if (response.IsSuccessStatusCode)
+        if (response.IsSuccess)
         {
-            InjectService.ShowMessage(response.Content!.Substring(1, response.Content!.Length - 2), EnumResponseType.Success);
+            InjectService.ShowMessage(response.Message!, EnumResponseType.Success);
             MudDialog?.Close();
             return;
         }
 
-        InjectService.ShowMessage(response.Content!.Substring(1, response.Content!.Length - 2), EnumResponseType.Error);
+        InjectService.ShowMessage(response.Message!, EnumResponseType.Error);
     }
 
     #endregion
@@ -80,12 +79,13 @@ public partial class EditBlogDialog
 
     private async Task GetBlog()
     {
-        RestRequest request = new($"/api/blog/{id}", Method.Get);
-        RestResponse response = await RestClient.GetAsync(request);
-        if (response.IsSuccessStatusCode)
+        var response = await RestClientService.ExecuteAsync<BlogResponseModel>(
+            $"{Endpoints.Blog}/{id}",
+            EnumHttpMethod.Get);
+
+        if (response.IsSuccess)
         {
-            string jsonStr = response.Content!;
-            Model = JsonConvert.DeserializeObject<BlogModel>(jsonStr)!;
+            ResponseModel.Item = response.Item;
         }
     }
 

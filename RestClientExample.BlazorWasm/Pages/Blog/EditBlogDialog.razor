@@ -6,9 +6,16 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField @bind-Value="@Model.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-        <MudTextField @bind-Value="@Model.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-        <MudTextField @bind-Value="@Model.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        @if(ResponseModel.Item is not null)
+        {
+            <MudTextField @bind-Value="@ResponseModel.Item.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+            <MudTextField @bind-Value="@ResponseModel.Item.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+            <MudTextField @bind-Value="@ResponseModel.Item.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        }
+        else
+        {
+            <MudProgressCircular Color="Color.Success" Indeterminate="true" />
+        }
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Color="Color.Error" Size="Size.Medium" Variant="Variant.Filled">Cancel</MudButton>

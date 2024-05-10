@@ -19,11 +19,21 @@ public class BlogController : ControllerBase
     {
         try
         {
-            return Ok(await _businessLogic_Blog.GetBlogs(pageNo, pageSize));
+            BlogListResponseModel lst = await _businessLogic_Blog.GetBlogs(pageNo, pageSize);
+            return Ok(new ResponseModel()
+            {
+                IsSuccess = true,
+                Data = lst.Data,
+                PageSetting = lst.PageSetting
+            });
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return BadRequest(new ResponseModel()
+            {
+                IsSuccess = false,
+                Message = ex.Message
+            });
         }
     }
 
@@ -32,7 +42,12 @@ public class BlogController : ControllerBase
     {
         try
         {
-            return Ok(await _businessLogic_Blog.GetBlog(id));
+            var item = await _businessLogic_Blog.GetBlog(id);
+            return Ok(new ResponseModel()
+            {
+                IsSuccess = true,
+                Item = item
+            });
         }
         catch (Exception ex)
         {
@@ -46,7 +61,24 @@ public class BlogController : ControllerBase
         try
         {
             int result = await _businessLogic_Blog.CreateBlog(requestModel);
-            return result > 0 ? StatusCode(201, "Creating Successful.") : BadRequest("Creating Fail.");
+
+            ResponseModel responseModel = new();
+
+            if (result > 0)
+            {
+                return StatusCode(201, responseModel = new()
+                {
+                    IsSuccess = true,
+                    Message = "Creating Successful!",
+                    Item = requestModel
+                });
+            }
+
+            return BadRequest(responseModel = new()
+            {
+                Message = "Creating Fail!",
+                IsSuccess = false
+            });
         }
         catch (Exception ex)
         {
@@ -60,7 +92,23 @@ public class BlogController : ControllerBase
         try
         {
             int result = await _businessLogic_Blog.UpdateBlog(requestModel, id);
-            return result > 0 ? StatusCode(202, "Updating Successful.") : BadRequest("Updating Fail.");
+            ResponseModel responseModel = new();
+
+            if (result > 0)
+            {
+                return StatusCode(202, responseModel = new()
+                {
+                    IsSuccess = true,
+                    Message = "Updating Successful!",
+                    Item = requestModel
+                });
+            }
+
+            return StatusCode(400, responseModel = new()
+            {
+                IsSuccess = true,
+                Message = "Updating Fail!"
+            });
         }
         catch (Exception ex)
         {
@@ -74,7 +122,23 @@ public class BlogController : ControllerBase
         try
         {
             int result = await _businessLogic_Blog.PatchBlog(requestModel, id);
-            return result > 0 ? StatusCode(202, "Updating Successful.") : BadRequest("Updating Fail.");
+            ResponseModel responseModel = new();
+
+            if (result > 0)
+            {
+                return StatusCode(202, responseModel = new()
+                {
+                    IsSuccess = true,
+                    Message = "Updating Successful!",
+                    Item = requestModel
+                });
+            }
+
+            return BadRequest(responseModel = new()
+            {
+                IsSuccess = false,
+                Message = "Updating Fail."
+            });
         }
         catch (Exception ex)
         {
@@ -86,6 +150,21 @@ public class BlogController : ControllerBase
     public async Task<IActionResult> Delete(long id)
     {
         int result = await _businessLogic_Blog.DeleteBlog(id);
-        return result > 0 ? StatusCode(202, "Deleting Successful.") : BadRequest("Deleting Fail.");
+        ResponseModel responseModel = new();
+
+        if (result > 0)
+        {
+            return StatusCode(202, responseModel = new()
+            {
+                IsSuccess = true,
+                Message = "Deleting Successful."
+            });
+        }
+
+        return BadRequest(responseModel = new()
+        {
+            IsSuccess = false,
+            Message = "Deleting Fail."
+        });
     }
 }

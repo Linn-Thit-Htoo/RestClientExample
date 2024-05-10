@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using RestClientExample.BlazorWasm.Models;
 using RestClientExample.BlazorWasm.Services;
 using RestSharp;
 using static RestClientExample.BlazorWasm.Services.InjectService;
@@ -8,11 +9,11 @@ namespace RestClientExample.BlazorWasm.Pages.Blog;
 
 public partial class DeleteBlogDialog
 {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
     [Parameter] public long id { get; set; }
 
-    void Cancel() => MudDialog.Cancel();
+    void Cancel() => MudDialog?.Cancel();
 
     #region Delete Async
 
@@ -20,18 +21,19 @@ public partial class DeleteBlogDialog
     {
         if (id != 0)
         {
-            RestRequest request = new($"{Endpoints.Blog}/{id}", Method.Delete);
-            RestResponse response = await RestClient.ExecuteAsync(request);
-            if (response.IsSuccessStatusCode)
+            var response = await RestClientService.ExecuteAsync<BlogResponseModel>(
+                $"{Endpoints.Blog}/{id}",
+                EnumHttpMethod.Delete);
+
+            if (response.IsSuccess)
             {
-                InjectService.ShowMessage(response.Content!.Substring(1, response.Content!.Length - 2), EnumResponseType.Success);
-                MudDialog.Close();
+                InjectService.ShowMessage(response.Message!, EnumResponseType.Success);
+                MudDialog?.Close();
                 return;
             }
 
-            InjectService.ShowMessage(response.Content!.Substring(1, response.Content!.Length - 2), EnumResponseType.Error);
+            InjectService.ShowMessage(response.Message!, EnumResponseType.Error);
         }
     }
-
     #endregion
 }

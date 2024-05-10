@@ -29,12 +29,27 @@ public class DataAccess_Blog
             pageCount++;
         }
 
-        return new()
+        PageSettingModel pageSettingModel = new()
         {
-            Blogs = lst,
             PageCount = pageCount,
-            PageNo = pageNo,
-            PageSize = pageSize
+            PageSize = pageSize,
+            PageNo = pageNo
+        };
+
+        //BlogDataModel blogDataModel = new()
+        //{
+        //    Blogs = lst
+        //};
+
+        return new BlogListResponseModel()
+        {
+            Data = new BlogDataModel() { Blogs = lst },
+            PageSetting = new PageSettingModel()
+            {
+                PageCount = pageCount,
+                PageSize = pageSize,
+                PageNo = pageNo
+            }
         };
     }
 

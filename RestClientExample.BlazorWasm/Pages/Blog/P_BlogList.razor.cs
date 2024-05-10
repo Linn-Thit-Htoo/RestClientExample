@@ -1,14 +1,12 @@
 ﻿using MudBlazor;
-using Newtonsoft.Json;
 using RestClientExample.BlazorWasm.Models;
 using RestClientExample.BlazorWasm.Services;
-using RestSharp;
 
 namespace RestClientExample.BlazorWasm.Pages.Blog;
 
 public partial class P_BlogList
 {
-    private BlogListResponseModel? ResponseModel;
+    private BlogListResponseModel ResponseModel;
     private int _pageNo = 1;
     private int _pageSize = 10;
 
@@ -27,13 +25,17 @@ public partial class P_BlogList
         _pageNo = pageNo;
         _pageSize = pageSize;
 
-        RestRequest request = new($"{Endpoints.Blog}?pageNo={_pageNo}&pageSize={_pageSize}", Method.Get);
-        RestResponse response = await RestClient.ExecuteAsync(request);
-        if (response.IsSuccessStatusCode)
+        ResponseModel = await RestClientService.ExecuteAsync<BlogListResponseModel>(
+            $"{Endpoints.Blog}?pageNo={_pageNo}&pageSize={_pageSize}",
+            EnumHttpMethod.Get);
+
+        if (ResponseModel.IsSuccess)
         {
-            string jsonStr = response.Content!;
-            ResponseModel = JsonConvert.DeserializeObject<BlogListResponseModel>(jsonStr)!;
             StateHasChanged();
+        }
+        else
+        {
+            InjectService.ShowMessage("Something went wrong.", InjectService.EnumResponseType.Error);
         }
     }
 
