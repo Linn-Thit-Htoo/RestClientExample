@@ -12,6 +12,8 @@ public partial class CreateBlogDialog
 
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
+    private bool isButtonDisabled = true;
+
     #region Save Async
 
     private async Task SaveAsync()
@@ -62,4 +64,17 @@ public partial class CreateBlogDialog
     #endregion
 
     private void Cancel() => MudDialog?.Close();
+
+    private void Validate()
+    {
+        if (string.IsNullOrEmpty(requestModel.BlogTitle) || string.IsNullOrEmpty(requestModel.BlogAuthor) || string.IsNullOrEmpty(requestModel.BlogContent))
+        {
+            isButtonDisabled = true;
+        }
+        else
+        {
+            isButtonDisabled = false;
+        }
+        StateHasChanged();
+    }
 }

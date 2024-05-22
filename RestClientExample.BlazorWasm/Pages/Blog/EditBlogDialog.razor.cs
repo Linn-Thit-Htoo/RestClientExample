@@ -15,6 +15,8 @@ public partial class EditBlogDialog
 
     [Parameter] public long id { get; set; }
 
+    private bool isButtonDisabled = true;
+
     private void Cancel() => MudDialog?.Close();
 
     #region Save Async
@@ -99,4 +101,17 @@ public partial class EditBlogDialog
     }
 
     #endregion
+
+    private void Validate()
+    {
+        if (string.IsNullOrEmpty(ResponseModel.Item.BlogTitle) || string.IsNullOrEmpty(ResponseModel.Item.BlogAuthor) || string.IsNullOrEmpty(ResponseModel.Item.BlogContent))
+        {
+            isButtonDisabled = true;
+        }
+        else
+        {
+            isButtonDisabled = false;
+        }
+        StateHasChanged();
+    }
 }

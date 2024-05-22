@@ -8,9 +8,9 @@
     <DialogContent>
         @if(ResponseModel.Item is not null)
         {
-            <MudTextField @bind-Value="@ResponseModel.Item.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-            <MudTextField @bind-Value="@ResponseModel.Item.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-            <MudTextField @bind-Value="@ResponseModel.Item.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+            <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@ResponseModel.Item.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+            <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@ResponseModel.Item.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+            <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@ResponseModel.Item.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
         }
         else
         {
@@ -19,6 +19,6 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Color="Color.Error" Size="Size.Medium" Variant="Variant.Filled">Cancel</MudButton>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Medium" OnClick="SaveAsync">Save</MudButton>
+        <MudButton Disabled="@isButtonDisabled" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Medium" OnClick="SaveAsync">Save</MudButton>
     </DialogActions>
 </MudDialog>
