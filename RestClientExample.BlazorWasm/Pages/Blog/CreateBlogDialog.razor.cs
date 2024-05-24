@@ -67,14 +67,12 @@ public partial class CreateBlogDialog
 
     private void Validate()
     {
-        if (string.IsNullOrEmpty(requestModel.BlogTitle) || string.IsNullOrEmpty(requestModel.BlogAuthor) || string.IsNullOrEmpty(requestModel.BlogContent))
-        {
-            isButtonDisabled = true;
-        }
-        else
-        {
-            isButtonDisabled = false;
-        }
-        StateHasChanged();
+        isButtonDisabled = IsNullOrEmpty(requestModel.BlogTitle) || IsNullOrEmpty(requestModel.BlogAuthor) ||
+            IsNullOrEmpty(requestModel.BlogContent);
+    }
+
+    private static bool IsNullOrEmpty(string str)
+    {
+        return string.IsNullOrEmpty(str);
     }
 }

@@ -6,9 +6,9 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@requestModel.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-        <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@requestModel.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
-        <MudTextField Immediate="true" TextChanged="@(e => Validate())" @bind-Value="@requestModel.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        <MudTextField Immediate="true" TextChanged="Validate" @bind-Value="@requestModel.BlogTitle" Label="Blog Title" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        <MudTextField Immediate="true" TextChanged="Validate" @bind-Value="@requestModel.BlogAuthor" Label="Blog Author" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+        <MudTextField Immediate="true" TextChanged="Validate" @bind-Value="@requestModel.BlogContent" Label="Blog Content" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Color="Color.Error" Size="Size.Medium" Variant="Variant.Filled">Cancel</MudButton>

@@ -104,7 +104,7 @@ public partial class EditBlogDialog
 
     private void Validate()
     {
-        if (string.IsNullOrEmpty(ResponseModel.Item.BlogTitle) || string.IsNullOrEmpty(ResponseModel.Item.BlogAuthor) || string.IsNullOrEmpty(ResponseModel.Item.BlogContent))
+        if (IsNullOrEmpty(ResponseModel.Item.BlogTitle) || IsNullOrEmpty(ResponseModel.Item.BlogAuthor) || IsNullOrEmpty(ResponseModel.Item.BlogContent))
         {
             isButtonDisabled = true;
         }
@@ -113,5 +113,10 @@ public partial class EditBlogDialog
             isButtonDisabled = false;
         }
         StateHasChanged();
+    }
+
+    private bool IsNullOrEmpty(string str)
+    {
+        return string.IsNullOrEmpty(str);
     }
 }
