@@ -20,7 +20,6 @@ builder.Services.AddScoped(n =>
 
 builder.Services.AddScoped<RestClientService>();
 
-
 builder.Services.AddScoped<InjectService>();
 
 await builder.Build().RunAsync();
