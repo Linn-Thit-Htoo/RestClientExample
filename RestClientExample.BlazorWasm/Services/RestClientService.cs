@@ -15,7 +15,7 @@ public class RestClientService
     public async Task<T> ExecuteAsync<T>(string endpoint, EnumHttpMethod enumHttpMethod, object? requestModel = null)
     {
         RestRequest request = new(endpoint);
-        RestResponse response = null;
+        RestResponse? response = null;
 
         if (requestModel is not null)
         {
